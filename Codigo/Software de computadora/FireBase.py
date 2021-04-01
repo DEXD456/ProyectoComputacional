@@ -1,9 +1,9 @@
 
 from firebase import firebase
+import Conexion
+
 
 # put the name of your database where the ***** are
-address = "https://estacion-meteorologica-6a5e1-default-rtdb.firebaseio.com/"
-fb = firebase.FirebaseApplication(address)
 
 import tkinter as tk
 
@@ -24,7 +24,7 @@ def Limpiar ():
 
 lbx = tk.Listbox(root)
 lbx.grid(row=4,column=0,padx=10)
-data = fb.get(address, "/Estacion/BD/Datos")
+data = Conexion.fb.get(Conexion.address, "/Estacion/BD/Datos")
 for k in data:
 	lbx.insert(tk.END, k)
 lbx2 = tk.Listbox(root)
