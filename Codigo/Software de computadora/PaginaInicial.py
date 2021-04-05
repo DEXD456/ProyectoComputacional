@@ -2,15 +2,35 @@ from tkinter import *
 import tkinter.font as tkFont
 from tkinter import messagebox
 import Conexion
+import Inicio
+import BaseDeDatos
 
-class Inicio(Frame):
-    def __init__(self,master=None):
-        super().__init__(master,width = 1000,height =600)
-        self.master = master
-        self.pack()
-        self.Crearmenu()
+class PaginaInicial(Frame): 
+    def __init__(self,master):
+        Frame.__init__(self,master,width = 1000,height =600)
+        self.barraMenu = Menu(self)
+        self.master.config(menu = self.barraMenu)
+        self.Inicio = Menu(self.barraMenu,tearoff=0)
+        self.Inicio.add_command(label="Pagina principal")
+        self.Inicio.add_command(label="Base de datos",command=lambda: master.switch_frame(BaseDeDatos.BD))
+        self.Inicio.add_separator()
+        self.Inicio.add_command(label="Cerrar",command=self.Cerrar)
+
+        self.Descargas = Menu(self.barraMenu,tearoff=0)
+        self.Descargas.add_command(label="Base de datos")
+        self.Descargas.add_command(label="Graficos de prediccion")
+
+
+        self.Ayuda = Menu(self.barraMenu,tearoff=0)
+        self.Ayuda.add_command(label="Manual de uso")
+        self.Ayuda.add_command(label="Informacion",command=self.Informacion)
+        self.Ayuda.add_command(label="Contactos",command=self.Contactos)
+
+        self.barraMenu.add_cascade(label="Inicio",menu = self.Inicio)
+        self.barraMenu.add_cascade(label="Descargas",menu = self.Descargas)
+        self.barraMenu.add_cascade(label="Ayuda",menu = self.Ayuda)
         self.contenedor()
-    
+
     def contenedor(self):
         font_datos = tkFont.Font(family="Lucida Grande", size=40)
         font_Texto = tkFont.Font(family="Lucida Grande", size=15)
@@ -44,33 +64,6 @@ class Inicio(Frame):
         # temperatura.config(text=Conexion.TemperaturaActual())
         # humedad.config(text=Conexion.HumedadActual())
         # lux.config(text=Conexion.LuxActual())
-
-
-
-    def Crearmenu(self):
-        self.barraMenu = Menu(self)
-        self.master.config(menu = self.barraMenu)
-
-        self.Inicio = Menu(self.barraMenu,tearoff=0)
-        self.Inicio.add_command(label="Pagina principal")
-        self.Inicio.add_command(label="Base de datos")
-        self.Inicio.add_separator()
-        self.Inicio.add_command(label="Cerrar",command=self.Cerrar)
-
-        self.Descargas = Menu(self.barraMenu,tearoff=0)
-        self.Descargas.add_command(label="Base de datos")
-        self.Descargas.add_command(label="Graficos de prediccion")
-
-
-        self.Ayuda = Menu(self.barraMenu,tearoff=0)
-        self.Ayuda.add_command(label="Manual de uso")
-        self.Ayuda.add_command(label="Informacion",command=self.Informacion)
-        self.Ayuda.add_command(label="Contactos",command=self.Contactos)
-
-        self.barraMenu.add_cascade(label="Inicio",menu = self.Inicio)
-        self.barraMenu.add_cascade(label="Descargas",menu = self.Descargas)
-        self.barraMenu.add_cascade(label="Ayuda",menu = self.Ayuda)
-        
     def Informacion(self):
         messagebox.showinfo("Estacion meteorologica","Estacion meteorologica basica\nVersion 1.0\n Proyecto computacionl II ")
     def Contactos(self):
@@ -80,11 +73,3 @@ class Inicio(Frame):
         valor = messagebox.askokcancel("Cerrar","Deseas cerrar la aplicacion")
         if valor:
             self.master.destroy()
-
-
-
-root = Tk()
-root.title("Estacion Meteorologica")
-frame = Inicio(master = root)
-frame.mainloop()
-
