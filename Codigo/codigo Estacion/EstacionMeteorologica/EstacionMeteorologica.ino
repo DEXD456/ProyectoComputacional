@@ -7,13 +7,13 @@
 #define FIREBASE_HOST "estacion-meteorologica-6a5e1-default-rtdb.firebaseio.com" //Sin http:// o https:// 
 #define FIREBASE_AUTH "5uNgy1s6wQKWNTfJsCCLlEecQc5KECuEYeHpJi5b"
 #define WIFI_SSID "andiluable"
-#define WIFI_PASSWORD "4NDreaNicol3"
+#define WIFI_PASSWORD "4NDrea"
 #define DHTPIN D7 //Pin de ingreso de datos del DTH
 #define DHTTYPE DHT11 // Tipo de DTH
 
 String path = "/Estacion";
 FirebaseJson json;
-int timezone = 4*3600;
+int timezone = (-4)*3600;
 int dst = 0;
 
 int LDR_pin = A0;  // Leer el pin 0
