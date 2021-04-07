@@ -15,7 +15,6 @@ class PaginaInicial(Frame):
         self.Inicio.add_command(label="Base de datos",command=lambda: master.switch_frame(BaseDeDatos.BD))
         self.Inicio.add_separator()
         self.Inicio.add_command(label="Cerrar",command=self.Cerrar)
-
         self.Descargas = Menu(self.barraMenu,tearoff=0)
         self.Descargas.add_command(label="Base de datos")
         self.Descargas.add_command(label="Graficos de prediccion")
