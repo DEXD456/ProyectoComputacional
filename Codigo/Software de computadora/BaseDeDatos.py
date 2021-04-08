@@ -1,9 +1,11 @@
 from tkinter import *
 import tkinter.font as tkFont
 from tkinter import messagebox
-import Conexion
+
+
 import Inicio
 import PaginaInicial
+import Conexion
 from tkinter import ttk
 
 class BD(Frame):
@@ -31,7 +33,8 @@ class BD(Frame):
         self.barraMenu.add_cascade(label="Descargas",menu = self.Descargas)
         self.barraMenu.add_cascade(label="Ayuda",menu = self.Ayuda)
         self.contenedor()
-        self.MostrarDatos()
+        Conexion.conexionBD()
+        self.Mostrar()
 
     def contenedor(self):
         font_datos = tkFont.Font(family="Lucida Grande", size=40)
@@ -40,7 +43,7 @@ class BD(Frame):
         Label(self,text = "Consulta de datos",font=font_Subtitulos).grid(row=1,column=0,columnspan=2,padx=30)
         Label(self,text = "Fecha Inicio",font=font_Texto).grid(row=2,column=0,sticky=W,padx=50)
         Label(self,text = "Fecha Final",font=font_Texto).grid(row=3,column=0,sticky=W,padx=50)
-        
+        Button(self,text="Descargar",font=font_Texto,command=self.DescargarDatos).grid(row=5,column=0)
 
 
         self.Tabla = ttk.Treeview(self)
@@ -62,7 +65,8 @@ class BD(Frame):
         # lux.config(text=Conexion.LuxActual())
 
 
-    def MostrarDatos(self):
+    def DescargarDatos(self):
+        self.limpiar()
         data  = Conexion.getDatos()
         Humedad=""
         Temperatura=""
@@ -73,8 +77,20 @@ class BD(Frame):
             Temperatura = Conexion.getTemperatura(k)
             Lux = Conexion.getLux(k)
             Fecha = Conexion.getFecha(k)
-            self.Tabla.insert(parent='',index='end',iid=k,text=k,values=(Temperatura,Humedad,Lux,Fecha))
+            Conexion.CrearBD(k,Temperatura,Humedad,Lux,Fecha)
+        self.Mostrar()
 
+    def limpiar(self):
+        registro = self.Tabla.get_children()
+        for elementos in registro:
+            self.Tabla.delete(elementos)
+
+    def Mostrar(self):
+        self.limpiar()
+        datos = Conexion.mostrar()
+        for row in datos:
+            self.Tabla.insert(parent='',index='end',iid=row[0],text=row[0],values=(row[1],row[2],row[3],row[4]))
+   
     def Informacion(self):
         messagebox.showinfo("Estacion meteorologica","Estacion meteorologica basica\nVersion 1.0\n Proyecto computacionl II ")
     def Contactos(self):

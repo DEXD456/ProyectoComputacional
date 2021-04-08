@@ -1,8 +1,44 @@
 from firebase import firebase
-
+from tkinter import messagebox
+import sqlite3
 # put the name of your database where the ***** are
 address = "https://estacion-meteorologica-6a5e1-default-rtdb.firebaseio.com/"
 fb = firebase.FirebaseApplication(address)
+
+def conexionBD():
+    conexion=sqlite3.connect("Estacion")
+    cursor = conexion.cursor()
+    try:
+        cursor.execute('''
+        CREATE TABLE Datos(
+            Id varchar(50) PRIMARY KEY,
+            Temperatura FLOAT,
+            Humeda FLOAT,
+            Iluminacion FLOAT,
+            Fecha VARCHAR(50)
+        )
+        ''')
+        messagebox.showinfo("CONEXION","BASE DE DATOS CREADA")
+    except:
+        messagebox.showinfo("CONEXION","CONEXION EXITOSA")
+
+
+def CrearBD(index,temperatura,humedad,lux,fecha):
+    conexion=sqlite3.connect("Estacion")
+    cursor = conexion.cursor()
+    try:
+        datos = index,temperatura,humedad,lux,fecha
+        cursor.execute("INSERT INTO Datos VALUES(?,?,?,?,?)",(datos))
+        conexion.commit()
+    except:
+        messagebox.showwarning("ADVERTENCIA","OCURRIO UN ERROR EN EL REGISTRO")
+        pass
+
+def mostrar():
+    conexion=sqlite3.connect("Estacion")
+    cursor = conexion.cursor()
+    datos = cursor.execute("SELECT * FROM Datos")
+    return datos
 
 
 def TemperaturaActual():
