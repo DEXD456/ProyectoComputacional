@@ -3,13 +3,17 @@ from flask import Flask,render_template
 app = Flask(__name__)
 
 @app.route("/")
-def index():
+def paginaprincipal():
     nombre = "Cristian"
     return render_template("index.htm",nombre=nombre)
 
 @app.route("/base")
-def base():
+def basededatos():
     return render_template("base.htm")
+
+@app.route("/manual")
+def manual():
+    return render_template("manual.htm")
 
 
 if __name__ == "__main__":
